@@ -1,0 +1,8 @@
+[workspace]
+members = [
+  "crates/resolver-core",
+  "services/resolver-api",
+]
+exclude = ["src-tauri"]
+resolver = "2"
+

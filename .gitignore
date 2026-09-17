@@ -1,0 +1,9 @@
+node_modules
+dist
+target
+data
+.env
+.env.*
+!.env.example
+.idea
+*.log

@@ -1,0 +1,31 @@
+name: qsytool
+
+services:
+  qsytool:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: ${QSY_IMAGE:-qsytool:local}
+    restart: unless-stopped
+    environment:
+      QSY_API_BIND_ADDR: 0.0.0.0:8080
+      QSY_API_DOWNLOAD_DIR: /app/data/downloads
+      QSY_WEB_DIR: /app/dist
+      QSY_API_CORS_ORIGINS: ${QSY_API_CORS_ORIGINS:-*}
+      QSY_API_MAX_IN_FLIGHT: ${QSY_API_MAX_IN_FLIGHT:-8}
+      QSY_API_MAX_DOWNLOAD_BYTES: ${QSY_API_MAX_DOWNLOAD_BYTES:-2147483648}
+      QSY_API_LOG_FORMAT: json
+    ports:
+      - "${QSY_PORT:-8080}:8080"
+    volumes:
+      - qsy_data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  qsy_data:

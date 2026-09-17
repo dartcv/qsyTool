@@ -1,0 +1,39 @@
+{
+	servers {
+		protocols h1 h2 h3
+	}
+
+	log {
+		output stdout
+		format json
+		level INFO
+	}
+}
+
+{$QSY_API_DOMAIN:api.example.com} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		-Server
+	}
+
+	reverse_proxy resolver-api:18082 {
+		health_uri /healthz
+		health_interval 10s
+		health_timeout 2s
+		lb_try_duration 5s
+
+		transport http {
+			dial_timeout 3s
+			response_header_timeout 25s
+		}
+	}
+
+	log {
+		output stdout
+		format json
+	}
+}

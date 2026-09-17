@@ -1,0 +1,19 @@
+[package]
+name = "qsy-resolver-api"
+version = "0.2.0"
+description = "QSY background resolver and server-side download service"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.8", features = ["json", "macros"] }
+futures-util = "0.3"
+resolver-core = { path = "../../crates/resolver-core" }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["fs", "io-util", "macros", "net", "rt-multi-thread", "signal", "sync", "time"] }
+tower = { version = "0.5", features = ["limit", "util"] }
+tower-http = { version = "0.6", features = ["catch-panic", "cors", "request-id", "trace"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "json"] }
+url = "2"
+uuid = { version = "1", features = ["serde", "v4"] }
